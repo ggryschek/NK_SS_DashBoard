@@ -1,0 +1,26 @@
+import streamlit as st
+
+st.set_page_config(
+    page_title="Medical Advice Disclaimer",
+    page_icon="*️⃣",
+)
+
+# Sidebar configuration
+# Remember to add the logo here!
+st.sidebar.image("./assets/project-logo.jpg",)
+st.sidebar.success("Select a tab above.")
+
+# # Page information
+
+st.write("Last Updated 23.09.2024")
+
+st.markdown("""
+## 
+DISCLAIMER: The data presented on this dashboard has been generated from a synthetic dataset created for demonstration and educational purposes. 
+No real patient information is included. 
+Neurologisk Klinik recognizes the sensitivity and privacy concerns associated with handling medical data, which is why we have opted to use synthetic data to ensure compliance with all applicable privacy laws and data protection regulations, including HIPAA and GDPR.
+The information on this dashboard, including text, photos, and other materials, is provided solely for informational purposes.
+This dashboard does not constitute medical advice, diagnosis, or treatment.
+For specific medical concerns, it is essential to consult a licensed healthcare provider.
+Neurologisk Klinik assumes no liability for decisions made based on the synthetic data provided within this dashboard.
+""")
