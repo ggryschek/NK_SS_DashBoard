@@ -1,0 +1,73 @@
+  1. "Check the correlation between the age of AD patients and MMSE and ADL scores"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**User Testing Objective:**\n",
+    "- View the number of patients with low MMSE and ADL scores\n",
+    "- View the number of patients with AD and older age\n",
+    "- Determine if older patients tend to have lower ADL and MMSE scores, indicating potential cognitive decline.\n",
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+
+
+
+ 2.  "Check the correlation between the BMI and ADL scores of AD patients."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**User Testing Objective:**\n",
+    "- View the number of patients with high BMI scores and low ADL scores.\n",
+    "- View the number of patients with low BMI scores and low ADL scores.\n",
+    "- Determine if there is a correlation between BMI and ADL.\n",
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   
+   
+   
+ 3.  "Check the correlation between family history of Alzheimer's and MMSE scores."
+]
+},
+{
+"cell_type": "markdown",
+"metadata": {},
+"source": [
+ "**User Testing Objective:**\n",
+ "- View the patients with family history of AD.\n",
+ "- Check the MMSE scores of the same patients.\n",
+ "- Determine if there is a correlation between family history of AD and MMSE (if potentially declining).\n",
+]
+},
+{
+"cell_type": "markdown",
+"metadata": {},
+
+
+
+4. "Explore the relationship between alcohol consumption and both MMSE and ADL scores."
+]
+},
+{
+"cell_type": "markdown",
+"metadata": {},
+"source": [
+ "**User Testing Objective:**\n",
+ "- View the number of patients with low MMSE and ADL scores.\n",
+ "- View the number of patients that consume alcohol.\n",
+ "- Determine if varying levels of alcohol intake are associated with cognitive performance and daily living abilities.\n",
+]
+},
+{
+"cell_type": "markdown",
+"metadata": {},
