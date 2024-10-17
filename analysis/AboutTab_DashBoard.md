@@ -10,7 +10,7 @@ Team Members:
 - Guilherme Gryschek
 - Nchedochukwu Uzoigwe
 - Ning Gai
-- Sreeja Nair
+- Sreeja Mohanan Nair
 
 ```
 
