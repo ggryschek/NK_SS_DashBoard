@@ -42,7 +42,7 @@ If you are using Mac, you may need to follow install Xcode. Check the official S
    - `.\env\Scripts\activate.bat` [in Windows command prompt]
    - `.\env\Scripts\Activate.ps1` [in Windows PowerShell]
 3. Make sure that your terminal is in the environment (`env`) not in the global Python installation
-4. Install required packages `pip install -r ./requirements.txt`
+4. Install required packages `pip install -r analysis/requirements.txt`
 5. Check that everything is ok running `streamlit hello`
 
 ### Execution
