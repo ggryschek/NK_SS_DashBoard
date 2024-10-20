@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title = "NK_SS_Dashboard",
-    page_icon = "🧠", # failed to load customized icon
+    page_icon = "🧠", 
 )
 
 st.write("# Welcome to Alzheimer's Battlefield")

@@ -1,85 +1,82 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import altair as alt
-from streamlit_tags import st_tags
+import plotly.express as px
 
+# General page settings
 st.set_page_config(page_title="Descriptive Analytics")
-
 st.markdown("# Descriptive Analytics")
-
-st.sidebar.header("Descriptive Analytics")
-
 st.write(
-    """This demo illustrates the distribution of patients based on demographic characteristics.
-"""
+    """This demo illustrates the distribution of patients based on demographic characteristics."""
 )
 
-# Random data for demonstration
-np.random.seed(42) 
-n_patients = 100
+# Load data
+df = pd.read_csv("analysis/df_dataviz.csv")
 
-data = {
-    "Age": np.random.randint(50, 90, n_patients),
-    "Gender": np.random.choice(['Male', 'Female'], size=n_patients),
-    "Risk_Score": np.random.normal(0.5, 0.1, n_patients)
-}
+# Overview
+st.subheader("Overview")
 
-df = pd.DataFrame(data)
+## Patients vs. non-patients
+total_patients = df[df['Diagnosis'] == True].shape[0]
+total_non_patients = df[df['Diagnosis'] == False].shape[0]
+st.write(f"**Total Patients:** {total_patients}")
+st.write(f"**Total Non-Patients:** {total_non_patients}")
 
-# Select feature for x axis
-x_axis = st.selectbox(
-    "Select a feature that you care", 
-    options=["Age", "Gender"],  
-)
+## Preliminary analysis of patients
+### Feature selection and calculation
+patient_data = df[df['Diagnosis'] == True]
+avg_age = patient_data['Age'].mean()
+avg_bmi = patient_data['BMI'].mean()
+male_count = patient_data[patient_data['Gender'] == 'Male'].shape[0]
+female_count = patient_data[patient_data['Gender'] == 'Female'].shape[0]
 
-# Distribution calculation
-if x_axis == "Age":
-    age_distribution = df['Age'].value_counts().sort_index()
-    st.bar_chart(age_distribution)
-elif x_axis == "Gender":
-    gender_distribution = df['Gender'].value_counts()
-    st.bar_chart(gender_distribution)
+### Display
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("Average Age", f"{avg_age:.1f}")
+col2.metric("Average BMI", f"{avg_bmi:.1f}")
+col3.metric("Male Patients", male_count)
+col4.metric("Female Patients", female_count)
 
-# Get the column names (variables) as tags to display
-available_vars = df.columns.tolist()
+# Customized analysis
+st.subheader("Feature distribution")
+st.write("Select a feature to view its distribution among patients.")
 
-# Create a set to keep track of selected variables
-selected_vars = set()
+## Define selectable features
+features = [
+    'Gender', 'Ethnicity', 'ImpairmentLevel', 'DependencyLevel', 'WeightStatus', 'Confusion',
+    'Disorientation', 'PersonalityChanges', 'DifficultyCompletingTasks',
+    'Forgetfulness', 'AgeRange', 'MemoryComplaints', 'BehavioralProblems',
+    'FamilyHistoryAlzheimers', 'CardiovascularDisease', 'Diabetes', 'Depression', 'HeadInjury', 
+    'Hypertension'
+]
 
-# Display variables as small tags (buttons) that can be clicked to select or deselect
-st.markdown("### Available Variables (Click to Select or Deselect):")
-for var in available_vars:
-    # Use st.button for each variable to act as a tag
-    if st.button(var, key=var):
-        if var in selected_vars:
-            selected_vars.remove(var)  # Deselect if already selected
-        else:
-            selected_vars.add(var)  # Select if not already selected
+## Feature selection
+selected_feature = st.selectbox("Select a feature:", features)
 
-# Display selected variables in the top box (mimics the display of selected tags)
-st.markdown("### Selected Variables:")
-if selected_vars:
-    st.text(", ".join(selected_vars))  # Display selected variables as a comma-separated string
-else:
-    st.text("No variables selected yet.")  # Display when no variables are selected
+## Plot pie chart and histogram
+if selected_feature:
+    feature_data = patient_data[selected_feature].value_counts().reset_index()
+    feature_data.columns = [selected_feature, 'Count']
 
-# Function to render histograms for the selected variables
-def render_histogram(selected_vars):
-    if selected_vars:
-        for var in selected_vars:
-            chart = alt.Chart(df).mark_bar().encode(
-                alt.X(var, bin=True),
-                y='count()'
-            ).properties(
-                width=600,
-                height=400,
-                title=f"Distribution of {var}"
-            )
-            st.altair_chart(chart)
+    # Pie chart
+    pie_chart = px.pie(
+        feature_data, 
+        names=selected_feature, 
+        values='Count', 
+        title=f"Distribution of {selected_feature} (Pie Chart)",
+        labels={selected_feature: selected_feature, 'Count': 'Number'}
+    )
+    pie_chart.update_traces(textinfo='percent+label', hoverinfo='label+percent+value')
 
-# Generate histograms for the selected variables
-render_histogram(selected_vars)
+    # Histogram
+    bar_chart = px.bar(
+        feature_data, 
+        x=selected_feature, 
+        y='Count', 
+        title=f"Distribution of {selected_feature} (Histogram)",
+        text='Count',
+        labels={selected_feature: selected_feature, 'Count': 'Number'}
+    )
+    bar_chart.update_traces(textposition='outside')
 
-# Show raw data
-st.write("### Patient Demographic Data", df)
+    st.plotly_chart(pie_chart)
+    st.plotly_chart(bar_chart)

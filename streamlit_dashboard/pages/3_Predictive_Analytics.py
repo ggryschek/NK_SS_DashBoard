@@ -1,118 +1,78 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import seaborn as sns
+import joblib
+import shap
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import mean_squared_error, accuracy_score
 
-st.set_page_config(page_title="Predictive Analytics")
+# Load model
+best_model = joblib.load("analysis/best_model.pkl")
 
-
-st.markdown("# Predictive Analytics")
-
-
+# General page settings
+st.set_page_config(page_title="Predictive & Prescriptive Analytics")
+st.markdown("# Predictive & Prescriptive Analytics")
 st.write(
-    """This predictive analytics demo explores how demographic characteristics can be used to predict health outcomes.
-    """
+    """This page allows users to input patient information and get predictive insights, 
+    along with prescriptive analytics using SHAP visualizations for model interpretability."""
 )
 
-# Random data for demonstration
-np.random.seed(42)
-n_patients = 100
-data = {
-    "Age": np.random.randint(50, 90, n_patients), 
-    "Gender": np.random.choice(['Male', 'Female'], size=n_patients), 
-    "Risk_Score": np.random.normal(0.5, 0.1, n_patients),
-    "Blood_Pressure": np.random.randint(100, 180, n_patients) 
-}
+# Input
+st.subheader("Patient Information Input")
 
+## Default input
+age = st.number_input("Age", min_value=0, max_value=120, value=65)
+ethnicity = st.selectbox("Ethnicity", ["Caucasian", "Black", "Asian", "Other"], index=2)
+mmse = st.number_input("MMSE Score", min_value=0, max_value=30, value=20)
+adl = st.number_input("ADL Score", min_value=0.0, max_value=10.0, value=3.0)
+bmi = st.number_input("BMI", min_value=0.0, max_value=50.0, value=21.3)
+cholesterol = st.number_input("Cholesterol (mmol/L)", min_value=0.0, max_value=10.0, value=6.2)
+blood_pressure = st.text_input("Blood Pressure (e.g., 150/95)", value="150/95")
 
-df = pd.DataFrame(data)
+## Handle BP
+bp_systolic, bp_diastolic = map(int, blood_pressure.split("/"))
 
-# Hot-coding
-df['Gender_Code'] = df['Gender'].map({'Male': 0, 'Female': 1})
+## Convert input format
+def prepare_input(age, ethnicity, mmse, adl, bmi, cholesterol, bp_systolic, bp_diastolic):
+    ethnicity_mapping = {
+        "Caucasian": [1, 0, 0, 0],
+        "Black": [0, 1, 0, 0],
+        "Asian": [0, 0, 1, 0],
+        "Other": [0, 0, 0, 1]
+    }
+    input_data = [
+        age, bmi, mmse, adl, cholesterol, bp_systolic, bp_diastolic
+    ] + ethnicity_mapping.get(ethnicity, [0, 0, 0, 1])
+    return np.array(input_data).reshape(1, -1)
 
-# Show raw data
-st.write("### Patient Demographic Data", df)
+## Load input
+input_features = prepare_input(age, ethnicity, mmse, adl, bmi, cholesterol, bp_systolic, bp_diastolic)
 
-### Q1: Predicting Risk Score based on Age and Gender ###
-st.subheader("1. Predicting Risk Score based on Age and Gender")
+## Prediction
+if st.button("Predict Diagnosis"):
+    prediction = best_model.predict(input_features)
+    result = "Alzheimer's disease likely" if prediction[0] else "Alzheimer's disease unlikely"
+    st.write(f"**Prediction Result:** {result}")
 
+# Add SHAP
+st.subheader("Prescriptive Analytics using SHAP")
 
-X = df[['Age', 'Gender_Code']]
-y = df['Risk_Score']
+## Initiate SHAP model
+explainer = shap.TreeExplainer(best_model)  # Adjust based on actual model type
+shap_values = explainer.shap_values(input_features)
 
-# Divide training and tes set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Predict by linear regression
-reg_model = LinearRegression()
-reg_model.fit(X_train, y_train)
-
-# Prediction and Mean squared error
-y_pred = reg_model.predict(X_test)
-mse = mean_squared_error(y_test, y_pred)
-
-# Visualization
+## SHAP visualization
+st.write("### Single-instance Explanation")
+shap.initjs()
 fig, ax = plt.subplots()
-ax.scatter(y_test, y_pred, label="Predictions", color="b")
-ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2, label="Perfect Prediction")
-ax.set_xlabel("True Risk Score")
-ax.set_ylabel("Predicted Risk Score")
-ax.set_title("True vs Predicted Risk Score (MSE: {:.2f})".format(mse))
-ax.legend()
+shap.force_plot(explainer.expected_value, shap_values[0], input_features, matplotlib=True, show=False)
 st.pyplot(fig)
 
-### Q2: Predicting Blood Pressure based on Age？ ###
-st.subheader("2. Predicting Blood Pressure based on Age")
-
-# Predict by linear regression
-X_bp = df[['Age']]
-y_bp = df['Blood_Pressure']
-
-X_train_bp, X_test_bp, y_train_bp, y_test_bp = train_test_split(X_bp, y_bp, test_size=0.2, random_state=42)
-bp_model = LinearRegression()
-bp_model.fit(X_train_bp, y_train_bp)
-
-# Prediction and Mean squared error
-y_pred_bp = bp_model.predict(X_test_bp)
-mse_bp = mean_squared_error(y_test_bp, y_pred_bp)
-
-# Visualization
-fig, ax = plt.subplots()
-ax.scatter(y_test_bp, y_pred_bp, label="Predictions", color="g")
-ax.plot([y_test_bp.min(), y_test_bp.max()], [y_test_bp.min(), y_test_bp.max()], 'r--', lw=2, label="Perfect Prediction")
-ax.set_xlabel("True Blood Pressure")
-ax.set_ylabel("Predicted Blood Pressure")
-ax.set_title("True vs Predicted Blood Pressure (MSE: {:.2f})".format(mse_bp))
-ax.legend()
-st.pyplot(fig)
-
-### Q3: Predicting High Risk Status using Age, Gender, and Blood Pressure(Classification) ###
-st.subheader("3. Predicting High Risk Status using Age, Gender, and Blood Pressure")
-
-# Define high risk
-df['High_Risk'] = (df['Risk_Score'] > 0.6).astype(int)
-
-# Divide training and test set
-X_class = df[['Age', 'Gender_Code', 'Blood_Pressure']]
-y_class = df['High_Risk']
-
-X_train_class, X_test_class, y_train_class, y_test_class = train_test_split(X_class, y_class, test_size=0.2, random_state=42)
-
-# DT
-clf = DecisionTreeClassifier(random_state=42)
-clf.fit(X_train_class, y_train_class)
-
-# Prediction and accuracy
-y_pred_class = clf.predict(X_test_class)
-accuracy = accuracy_score(y_test_class, y_pred_class)
-
-# Visualization
-fig, ax = plt.subplots()
-sns.barplot(x=['True Negative', 'True Positive'], y=[(y_test_class == y_pred_class).sum(), (y_test_class != y_pred_class).sum()], ax=ax)
-ax.set_title(f"High Risk Prediction Accuracy: {accuracy * 100:.2f}%")
-st.pyplot(fig)
+## Visualizaition of SHAP on test set
+if st.button("Show Global Feature Importance (Test Set)"):
+    
+    X_test = pd.read_csv("analysis/df_ml.csv").drop("Diagnosis", axis=1)  # Replace with actual test data
+    shap_values_global = explainer.shap_values(X_test)
+    
+    st.write("### Global Feature Importance")
+    shap.summary_plot(shap_values_global, X_test)
+    st.pyplot()
