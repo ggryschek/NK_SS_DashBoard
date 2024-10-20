@@ -5,8 +5,9 @@ import joblib
 import shap
 import matplotlib.pyplot as plt
 
-# Load model
+# Load model & scaler
 best_model = joblib.load("analysis/best_model.pkl")
+scaler = joblib.load("analysis/scaler.pkl")
 
 # General page settings
 st.set_page_config(page_title="Predictive & Prescriptive Analytics")
@@ -27,10 +28,13 @@ mmse = st.number_input("MMSE Score", min_value=0, max_value=30, value=20)
 # Convert input to DataFrame
 input_data = pd.DataFrame({'ADL': [adl], 'MMSE': [mmse]})
 
+# Standardize input data using the loaded scaler
+input_data_scaled = scaler.transform(input_data) 
+
 # Prediction section
 if st.button("Predict Diagnosis"):
-    prediction = best_model.predict(input_data)
-    result = "Alzheimer's disease likely" if prediction[0] else "Alzheimer's disease unlikely"
+    prediction = best_model.predict(input_data_scaled)
+    result = name + " is at risk of Alzheimer's disease" if prediction[0] else name + " is  unlikely to have Alzheimer's disease"
     st.write(f"**Patient Name:** {name}")
     st.write(f"**ADL Score:** {adl}")
     st.write(f"**MMSE Score:** {mmse}")
