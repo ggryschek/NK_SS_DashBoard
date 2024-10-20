@@ -18,7 +18,7 @@ Using the Dashboard provided, perform the following tasks:
 
 - Task 5: Find if there is any correlation between the age of AD patients and their ADL and MMSE scores.
 
-- Task 6: Do a higher age corresponds to a higher MMSE score?
+- Task 6: Does a higher age corresponds to a higher MMSE score?
 
 ### Predictive Analysis
 - Task 7
