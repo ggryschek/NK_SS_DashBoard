@@ -4,6 +4,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import chi2_contingency, ttest_ind
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
 import numpy as np
 
@@ -97,9 +98,15 @@ if cat_var1 and cat_var2 and cat_var1 != cat_var2:
 ## Clustering
 st.subheader("Clustering Analysis (KMeans on ADL and MMSE)")
 
+### Normalization
 cluster_data = patient_data[['MMSE', 'ADL']].dropna()
+scaler = MinMaxScaler()
+cluster_data[['MMSE', 'ADL']] = scaler.fit_transform(cluster_data[['MMSE', 'ADL']])
+
+### KMeans clustering
 kmeans = KMeans(n_clusters=3, random_state=42)
 cluster_data['Cluster'] = kmeans.fit_predict(cluster_data[['MMSE', 'ADL']])
 
+### Plot
 fig = px.scatter(cluster_data, x='MMSE', y='ADL', color='Cluster', title='KMeans Clustering on ADL and MMSE (Patients Only)')
 st.plotly_chart(fig)
