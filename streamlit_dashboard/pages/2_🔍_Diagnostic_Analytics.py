@@ -8,12 +8,18 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
 import numpy as np
 
-# General page settings
-st.set_page_config(page_title="Diagnostic Analysis")
-st.markdown("# Diagnostic Analysis")
-st.write(
-    """This page allows users to analyze relationships between variables and Diagnosis, as well as explore relationships between different variables within Alzheimer's patient data."""
+# Page configuration
+st.set_page_config(
+    page_title="Diagnostic Analysis", 
+    page_icon="🔍"
 )
+
+# Sidebar configuration
+st.sidebar.image("assets/Neurologisk_Klinik_Logo.jpg")
+st.sidebar.success("Powered by *Neurologisk Klinik*")
+
+# Main content
+st.title("Diagnostic Analysis", help="Find out association among features")
 
 # Load data
 df = pd.read_csv("analysis/df_dataviz.csv")
@@ -25,7 +31,7 @@ def chi_square_test(df, var1, var2):
     return chi2, p
 
 # Correlation of AD diagnosis and any other feature
-st.subheader("Relationship with Diagnosis")
+st.header("Relationship with Diagnosis", divider="blue")
 
 ## Define feature by type
 numerical_features = ['Age', 'BMI', 'MMSE', 'ADL', 'CholesterolTotal', 'CholesterolLDL', 'CholesterolHDL', 'CholesterolTriglycerides', 'PhysicalActivity', 'AlcoholConsumption']

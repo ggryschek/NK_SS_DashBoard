@@ -2,43 +2,54 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# General page settings
-st.set_page_config(page_title="Descriptive Analytics")
-st.markdown("# Descriptive Analytics")
-st.write(
-    """This demo illustrates the distribution of patients based on demographic characteristics."""
+# Page configuration
+st.set_page_config(
+    page_title="Descriptive Analytics", 
+    page_icon="📈"
 )
+
+# Sidebar configuration
+st.sidebar.image("assets/Neurologisk_Klinik_Logo.jpg")
+st.sidebar.success("Powered by *Neurologisk Klinik*")
+
+# Main content
+st.title("Descriptive Analytics", help="Learn about feature distribution")
 
 # Load data
 df = pd.read_csv("analysis/df_dataviz.csv")
 
 # Overview
-st.subheader("Overview")
+st.header("Overview",divider="blue")
 
 ## Patients vs. non-patients
 total_patients = df[df['Diagnosis'] == True].shape[0]
 total_non_patients = df[df['Diagnosis'] == False].shape[0]
-st.write(f"**Total Patients:** {total_patients}")
-st.write(f"**Total Non-Patients:** {total_non_patients}")
+st.subheader("Non-AD and AD Patients Distribution", divider=False)
+st.write(f"**Total Non-AD Patients:** {total_non_patients}")
+st.write(f"**Total AD Patients:** {total_patients}")
+
 
 ## Preliminary analysis of patients
 ### Feature selection and calculation
 patient_data = df[df['Diagnosis'] == True]
 avg_age = patient_data['Age'].mean()
-avg_bmi = patient_data['BMI'].mean()
+avg_MMSE = patient_data['MMSE'].mean()
+avg_ADL = patient_data['ADL'].mean()
 male_count = patient_data[patient_data['Gender'] == 'Male'].shape[0]
 female_count = patient_data[patient_data['Gender'] == 'Female'].shape[0]
 
 ### Display
-col1, col2, col3, col4 = st.columns(4)
-col1.metric("Average Age", f"{avg_age:.1f}")
-col2.metric("Average BMI", f"{avg_bmi:.1f}")
-col3.metric("Male Patients", male_count)
-col4.metric("Female Patients", female_count)
+st.subheader("Basic AD Patient Statistics", divider=False)
+col1, col2, col3, col4, col5 = st.columns(5)
+col1.metric("**Average Age**", f"{avg_age:.1f}")
+col2.metric("**Average MMSE**", f"{avg_MMSE:.1f}")
+col3.metric("**Average ADL**", f"{avg_ADL:.1f}")
+col4.metric("**Male Patients**", male_count)
+col5.metric("**Female Patients**", female_count)
 
 # Customized analysis
-st.subheader("Feature distribution")
-st.write("Select a feature to view its distribution among patients.")
+st.header("Feature distribution", divider="blue")
+st.write("Find out how selected feature distributed among AD patients.")
 
 ## Define selectable features
 features = [
@@ -46,7 +57,7 @@ features = [
     'Disorientation', 'PersonalityChanges', 'DifficultyCompletingTasks',
     'Forgetfulness', 'AgeRange', 'MemoryComplaints', 'BehavioralProblems',
     'FamilyHistoryAlzheimers', 'CardiovascularDisease', 'Diabetes', 'Depression', 'HeadInjury', 
-    'Hypertension'
+    'Hypertension', 'EducationLevel', 'Smoking', 
 ]
 
 ## Feature selection
