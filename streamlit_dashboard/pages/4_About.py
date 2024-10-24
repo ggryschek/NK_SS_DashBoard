@@ -149,6 +149,9 @@ details = """
 st.write(details)
 
 # References
+st.write(details)
+
+# References
 st.markdown("## References")
 references = """
 1. El Kharoua R. Alzheimer’s Disease Dataset [Internet]. Kaggle; 2024 [cited 2024 Sep 6]. Available from: https://doi.org/10.34740/KAGGLE/DSV/8668279
@@ -160,4 +163,5 @@ references = """
 7. Weir CB, Jan A. BMI Classification Percentile And Cut Off Points. [Updated 2023 Jun 26]. In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; 2024 Jan-. Available from: https://www.ncbi.nlm.nih.gov/books/NBK541070/
 8. Tahami Monfared AA, Phan NTN, Pearson I, Mauskopf J, Cho M, Zhang Q, Hampel H. A Systematic Review of Clinical Practice Guidelines for Alzheimer's Disease and Strategies for Future Advancements. Neurol Ther. 2023 Aug;12(4):1257-1284. doi: 10.1007/s40120-023-00504-6. Epub 2023 Jun 1. PMID: 37261607; PMCID: PMC10310649.
 """
-st.write(references)
+st.text_area("References", references, height=200)
+
