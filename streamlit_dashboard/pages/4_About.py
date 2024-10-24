@@ -16,6 +16,13 @@ st.markdown("""
 - Sreeja Mohanan Nair
 """)
 
+# Contact Us
+st.markdown("""
+**Contact Us:**
+Email: synapsesolutions@nk.com
+Phone number: 0800 123 123
+""")
+
 # Business Problem
 st.markdown("### Business Problem")
 st.write("""
