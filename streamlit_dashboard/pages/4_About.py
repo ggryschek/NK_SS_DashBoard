@@ -19,8 +19,8 @@ st.markdown("""
 # Contact Us
 st.markdown("#### Contact Us:")
 st.write("""
-    "Email: synapsesolutions@nk.com"
-    "Phone number: 0800 123 123"
+    Email: synapsesolutions@nk.com<br>
+    Phone number: 0800 123 123
 """)
 
 # Business Problem
