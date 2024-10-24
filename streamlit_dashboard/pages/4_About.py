@@ -18,11 +18,10 @@ st.markdown("""
 
 # Contact Us
 st.markdown("#### Contact Us:")
-st.write
-contents = [
+st.write("""
     "Email: synapsesolutions@nk.com"
     "Phone number: 0800 123 123"
-]
+""")
 
 # Business Problem
 st.markdown("### Business Problem")
