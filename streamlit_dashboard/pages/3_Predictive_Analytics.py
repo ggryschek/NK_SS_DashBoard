@@ -77,4 +77,4 @@ st.subheader("* Feature importance analysis")
 
 st.image("assets/Permutation_Feature_Importances.png")
 
-st.write("Describe feature impoertance")
+st.write("Describe feature importance")
