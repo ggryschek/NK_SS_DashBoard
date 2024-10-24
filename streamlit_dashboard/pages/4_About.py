@@ -153,15 +153,16 @@ st.markdown("## References")
 
 references = """
 <small>
-1. El Kharoua R. Alzheimer’s Disease Dataset [Internet]. Kaggle; 2024 [cited 2024 Sep 6]. Available from: https://doi.org/10.34740/KAGGLE/DSV/8668279<br>
+1. El Kharoua R. Alzheimer’s Disease Dataset [Internet]. Kaggle; 2024 [cited 2024 Sep 6]. Available from: <a href='https://doi.org/10.34740/KAGGLE/DSV/8668279' target='_blank'>https://doi.org/10.34740/KAGGLE/DSV/8668279</a><br>
 2. Weintraub S, Carrillo MC, Farias ST, Goldberg TE, Hendrix JA, Jaeger J, Knopman DS, Langbaum JB, Park DC, Ropacki MT, Sikkes SAM, Welsh-Bohmer KA, Bain LJ, Brashear R, Budur K, Graf A, Martenyi F, Storck MS, Randolph C. Measuring cognition and function in the preclinical stage of Alzheimer's disease. Alzheimers Dement (N Y). 2018 Feb 13;4:64-75. doi: 10.1016/j.trci.2018.01.003. PMID: 29955653; PMCID: PMC6021264.<br>
-3. Zeltzer L, Korner-Bitensky N, Sitcoff E. Mini-Mental State Examination (MMSE) [Internet]. StrokEngine. 2010 Jul 11 [cited 2024 Sep 13]. Available from: https://strokengine.ca/en/assessments/mini-mental-state-examination-mmse/<br>
-4. Mahoney FI, Barthel D. Functional evaluation: The Barthel Index. Maryland State Medical Journal 1965;14:56-61. Available from: MDCalc. Barthel Index of Activities of Daily Living (ADL) [Internet]. Available from: https://www.mdcalc.com/calc/3912/barthel-index-activities-daily-living-adl#evidence<br>
-5. World Health Organization (2018). The global dementia observatory reference guide. World Health Organization. https://iris.who.int/handle/10665/272669<br>
-6. Hypertension in adults: diagnosis and management. London: National Institute for Health and Care Excellence (NICE); 2023 Nov 21. (NICE Guideline, No. 136.) Available from: https://www.ncbi.nlm.nih.gov/books/NBK547161/<br>
-7. Weir CB, Jan A. BMI Classification Percentile And Cut Off Points. [Updated 2023 Jun 26]. In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; 2024 Jan-. Available from: https://www.ncbi.nlm.nih.gov/books/NBK541070/<br>
+3. Zeltzer L, Korner-Bitensky N, Sitcoff E. Mini-Mental State Examination (MMSE) [Internet]. StrokEngine. 2010 Jul 11 [cited 2024 Sep 13]. Available from: <a href='https://strokengine.ca/en/assessments/mini-mental-state-examination-mmse/' target='_blank'>https://strokengine.ca/en/assessments/mini-mental-state-examination-mmse/</a><br>
+4. Mahoney FI, Barthel D. Functional evaluation: The Barthel Index. Maryland State Medical Journal 1965;14:56-61. Available from: MDCalc. Barthel Index of Activities of Daily Living (ADL) [Internet]. Available from: <a href='https://www.mdcalc.com/calc/3912/barthel-index-activities-daily-living-adl#evidence' target='_blank'>https://www.mdcalc.com/calc/3912/barthel-index-activities-daily-living-adl#evidence</a><br>
+5. World Health Organization (2018). The global dementia observatory reference guide. World Health Organization. <a href='https://iris.who.int/handle/10665/272669' target='_blank'>https://iris.who.int/handle/10665/272669</a><br>
+6. Hypertension in adults: diagnosis and management. London: National Institute for Health and Care Excellence (NICE); 2023 Nov 21. (NICE Guideline, No. 136.) Available from: <a href='https://www.ncbi.nlm.nih.gov/books/NBK547161/' target='_blank'>https://www.ncbi.nlm.nih.gov/books/NBK547161/</a><br>
+7. Weir CB, Jan A. BMI Classification Percentile And Cut Off Points. [Updated 2023 Jun 26]. In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; 2024 Jan-. Available from: <a href='https://www.ncbi.nlm.nih.gov/books/NBK541070/' target='_blank'>https://www.ncbi.nlm.nih.gov/books/NBK541070/</a><br>
 8. Tahami Monfared AA, Phan NTN, Pearson I, Mauskopf J, Cho M, Zhang Q, Hampel H. A Systematic Review of Clinical Practice Guidelines for Alzheimer's Disease and Strategies for Future Advancements. Neurol Ther. 2023 Aug;12(4):1257-1284. doi: 10.1007/s40120-023-00504-6. Epub 2023 Jun 1. PMID: 37261607; PMCID: PMC10310649.
 </small>
 """
 
 st.markdown(references, unsafe_allow_html=True)
+
