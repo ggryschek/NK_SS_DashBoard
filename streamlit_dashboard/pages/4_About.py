@@ -18,10 +18,10 @@ st.markdown("""
 
 # Contact Us
 st.markdown("#### Contact Us:")
-st.write("""
+st.markdown("""
     Email: synapsesolutions@nk.com<br>
     Phone number: 0800 123 123
-""")
+""", unsafe_allow_html=True)
 
 # Business Problem
 st.markdown("### Business Problem")
